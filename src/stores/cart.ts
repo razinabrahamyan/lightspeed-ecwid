@@ -40,10 +40,14 @@ export const useCartStore = defineStore('cart', {
     },
     dec(productId: number) {
       const it = this.items.find((i) => i.productId === productId)
-      if (it) {
-        it.qty = Math.max(1, it.qty - 1)
-        saveToStorage(this.items)
+      if (!it) return
+      const next = it.qty - 1
+      if (next <= 0) {
+        this.items = this.items.filter((i) => i.productId !== productId)
+      } else {
+        it.qty = next
       }
+      saveToStorage(this.items)
     },
     remove(productId: number) {
       this.items = this.items.filter((i) => i.productId !== productId)

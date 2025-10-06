@@ -23,8 +23,15 @@
           <div class="text-gray-500 max-w-prose" v-html="product.description"></div>
           <div class="text-sm text-gray-400">★★★★★☆☆☆☆☆</div>
           <div class="text-2xl font-bold">${{ product.price.toFixed(2) }}</div>
-          <div class="flex gap-3 pt-1">
-            <button class="rounded-full px-5 py-2.5 text-white bg-teal-400 hover:bg-teal-500" @click="onAdd">Add to Cart</button>
+          <div class="flex gap-3 pt-1 items-center">
+            <template v-if="qty(product.id) > 0">
+              <div class="flex items-center gap-2">
+                <button class="w-9 h-9 rounded-full border text-gray-700" @click="dec(product.id)">−</button>
+                <div class="w-6 text-center">{{ qty(product.id) }}</div>
+                <button class="w-9 h-9 rounded-full border text-gray-700" @click="inc(product.id)">+</button>
+              </div>
+            </template>
+            <button v-else class="rounded-full px-5 py-2.5 text-white bg-teal-400 hover:bg-teal-500" @click="onAdd">Add to Cart</button>
             <button class="rounded-full px-5 py-2.5 border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Add to Wishlist</button>
           </div>
         </div>
@@ -65,6 +72,9 @@ function onAdd() {
     imageUrl: product.value.imageUrl,
   })
 }
+const qty = (id: number) => cart.quantityByProductId(id)
+const inc = (id: number) => cart.inc(id)
+const dec = (id: number) => cart.dec(id)
 </script>
 
 

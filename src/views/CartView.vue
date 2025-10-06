@@ -69,12 +69,10 @@ const total = computed(() => totalPrice.value + shipping.value)
 const success = ref(false)
 
 function inc(id: number) {
-  const it = items.value.find(i => i.productId === id)
-  if (it) cart.changeQty(id, it.qty + 1)
+  cart.inc(id)
 }
 function dec(id: number) {
-  const it = items.value.find(i => i.productId === id)
-  if (it) cart.changeQty(id, Math.max(1, it.qty - 1))
+  cart.dec(id)
 }
 function onRemove(id: number) {
   cart.remove(id)
